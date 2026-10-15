@@ -1,4 +1,7 @@
 [
   "obsidian-git",
-  "tag-graph"
+  "tag-graph",
+  "tag-wrangler",
+  "smart-related-notes",
+  "default-template"
 ]
