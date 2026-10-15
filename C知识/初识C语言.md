@@ -1,4 +1,6 @@
 #C语言 
+tags:
+  - 语言/C
 # 1.C语言的起源
 
 C语言起源于1972年，由丹尼斯·里奇（*Denies Ritch*）和肯·汤普逊（*Ken Thompson*）在实验室里开发UNIX操作系统时所设计。
