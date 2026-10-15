@@ -14,12 +14,17 @@
    1.3 进入配置页面后找到systemcore点击RCC,然后在右边的下拉选项中选择“Crystal/Ceramic Resonator”。然后进入到sys里，在右侧的配置下拉选项中选择“Serial Wire”
      ![[stm32cube_003.png]]
      
-   ![[Pasted image 20261015175001.png]]
+   ![[stm32cube_004.png]]
 
    1.4 然后就可以在右边的芯片那个地方找一个引脚设置为“GPIO_Output”
 
-  ![[Pasted image 20261015175508.png]]
+  ![[stm32cube_005.png]]
 
   1.5 时钟配置，按照最高的72hz时钟进行配置：首先把“HSI”设置为“HSE”，然后在上面选择“PLLCLK”，并在后面的“HCLK“输入”72“后按回车（不按相当于没有保存）。这样之后时钟就算是配置好了。
-  ![[Pasted image 20261015175948.png]]
-   
+  ![[stm32cube_006.png]]
+
+
+## 2 项目管理以及代码生成
+  刚刚我们已经完成了配置的初设，现在我们就可以根据刚才的初设进行项目的代码生成了。
+  
+  2.1：我们先点开到”Project Manager“那，
