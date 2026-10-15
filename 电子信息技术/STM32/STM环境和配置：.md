@@ -15,5 +15,4 @@
      ![[stm32cube_003.png]]
      
      
-     ![[Pasted image 20261015175001.png]]
 ![[Pasted image 20261015175001.png]]
