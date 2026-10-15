@@ -1,6 +1,6 @@
 {
   "modelId": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
-  "modelChosen": false,
+  "modelChosen": true,
   "device": "auto",
   "indexSpeed": "balanced",
   "idleUnloadMinutes": 15,
