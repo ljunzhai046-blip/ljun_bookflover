@@ -11,7 +11,9 @@
    1.2 然后找到对应的板子，这里可以点击收藏下次可以快速找到，然后双击或点击右上叫的sart按钮就可以进入配置界面：
      ![[stm32cube_002.png]]
    
-   1.3 进入配置页面后找到systemcore点击RCC,然后在右边的下拉选项中选择“Crystal/Ceramic Resonator”。然后进入到sys里，在右侧的配置下拉选项中选择“”
+   1.3 进入配置页面后找到systemcore点击RCC,然后在右边的下拉选项中选择“Crystal/Ceramic Resonator”。然后进入到sys里，在右侧的配置下拉选项中选择“Serial Wire”
      ![[stm32cube_003.png]]
      
    ![[Pasted image 20261015175001.png]]
+
+   1.4
