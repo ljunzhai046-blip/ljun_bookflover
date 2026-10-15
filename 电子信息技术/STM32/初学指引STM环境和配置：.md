@@ -56,46 +56,21 @@
 
   3.2: 下载时应避免使用可能造成冲突的其他C语言插件，造成冲突时可以通过修改"setting.json"中的配置来修复报错。
    示例的代码如下：
-     {
-
-    "cmake.cmakePath": "cube-cmake",
-
-    "cmake.useCMakePresets": "always",
-
-    "cmake.configureOnOpen": true,
-
-    "cmake.configureArgs": [
-
-        "-DCMAKE_COMMAND=cube-cmake"
-
-    ],
-
-    "cmake.preferredGenerators": [
-
-        "Ninja"
-
-    ],
-
-  
-
-    "C_Cpp.intelliSenseEngine": "disabled",
-
-  
-
-    "stm32cube-ide-clangd.path": "cube",
-
-    "stm32cube-ide-clangd.arguments": [
-
-        "starm-clangd",
-
-        "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/*/bin/arm-none-eabi-gcc*",
-
-        "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/*/bin/arm-none-eabi-g++*",
-
-        "--compile-commands-dir=${workspaceFolder}/build/Debug"
-
-    ]
-
+  {
+"cmake.cmakePath": "cube-cmake",
+"cmake.useCMakePresets": "always",
+"cmake.configureOnOpen": true,
+"cmake.configureArgs": [
+"-DCMAKE_COMMAND=cube-cmake"],
+"cmake.preferredGenerators": [
+"Ninja"]
+"C_Cpp.intelliSenseEngine": "disabled",
+"stm32cube-ide-clangd.path": "cube",
+"stm32cube-ide-clangd.arguments": [
+ "starm-clangd",
+"--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/*/bin/arm-none-eabi-gcc*",
+"--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/*/bin/arm-none-eabi-g++*",
+"--compile-commands-dir=${workspaceFolder}/build/Debug"]     
 }
 
 
