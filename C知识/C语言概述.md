@@ -1,7 +1,7 @@
 ## 1 简单C程序
 
 1.1 简单C程序的结构如下：
-		#include <stdio.h>
+		"#include <stdio.h>"
 		  int main(void)
 		  {
 			   语句     /* 大部分的语句都以分号结尾 
@@ -12,7 +12,7 @@
 ## 2 简单程序的构成要素
 
 2.1 指令和头文件：#include <stdio.h> 的作用相当于把stdio.h文件中的所有内容都输入该行所在的位置。
-	#include 这行代码是一条C预处理指令（*preprocessor directive*）,通常C编译器会在编译前对源代码做==预处理==
+	"#include" 这行代码是一条C预处理指令（*preprocessor directive*）,通常C编译器会在编译前对源代码做==预处理==
 	  stdio.h这样的文件被称为头文件它包含了编程所要用的某些函数，像stdio.h的含义就是标准输入/标准输出的头文件包含了如“printf(),scanf()”这样的函数，供编程使用
 2.2 main() 函数：main函数是函数的一种，与其它函数在构造上并无二致，但是程序想要运行，必须得有main()函数，而且C程序一定从main函数开始执行，一个程序只允许有一个main()函数。
 完整结构是：
