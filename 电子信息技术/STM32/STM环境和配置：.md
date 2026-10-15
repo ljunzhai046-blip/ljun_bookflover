@@ -13,3 +13,6 @@
    
    1.3 进入配置页面后找到systemcore点击RCC,然后在右边的下拉选项中选择“Crystal/Ceramic Resonator”。然后进入到sys里
      ![[stm32cube_003.png]]
+     
+     
+     
