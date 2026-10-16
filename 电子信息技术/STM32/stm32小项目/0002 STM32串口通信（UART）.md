@@ -149,6 +149,8 @@ o 设置好后点 **Start** **Monitoring（开始监视）**，相当于独立
 
 "#include **<stdio.h>**"
 
+![[Pasted image 20261016172542.png]]
+
 **②** **添加** **printf** **重定向函数**：找到 /* USER CODE BEGIN 4 */ 和 /* USER CODE END 4 */（在 main 函数后面），在中间添加：
 
 int _write(int fd, char *ptr, int len)  
