@@ -159,6 +159,7 @@ int _write(int fd, char *ptr, int len)
   **return** len;  
 }
 
+![[Pasted image 20261016173006.png]]
 代码说明：
 
 · C 语言的 printf 原本是给电脑屏幕用的，单片机没有屏幕。
@@ -172,6 +173,8 @@ int _write(int fd, char *ptr, int len)
 printf("Hello STM32! count = %d\r\n", count);  
 count++;  
 HAL_Delay(1000);
+
+
 
 **④** **定义计数变量**：在 /* USER CODE BEGIN PV */ 和 /* USER CODE END PV */ 之间添加：
 
