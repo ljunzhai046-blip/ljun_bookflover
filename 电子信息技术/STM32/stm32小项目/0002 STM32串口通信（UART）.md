@@ -98,6 +98,7 @@ o 设置好后点 **Start** **Monitoring（开始监视）**，相当于独立
 ### **一、开启** **USART1**
 
 1. 左侧栏找到 Connectivity → USART1，点击展开。
+   ![[Pasted image 20261016171819.png]]
 
 2. Mode 选择 Asynchronous（异步模式，就是普通串口）。
 
