@@ -98,7 +98,7 @@ o 设置好后点 **Start** **Monitoring（开始监视）**，相当于独立
 ### **一、开启** **USART1**
 
 1. 左侧栏找到 Connectivity → USART1，点击展开。
-   ![[Pasted image 20261016171819.png]]
+   ![[p2001.png]]
 
 2. Mode 选择 Asynchronous（异步模式，就是普通串口）。
 
@@ -118,14 +118,14 @@ o 设置好后点 **Start** **Monitoring（开始监视）**，相当于独立
 
 （默认值一般就是这组，确认一遍即可）
 
-![[Pasted image 20261016172032.png]]
+![[p2002.png]]
 ### **三、开启串口中断（实验二要用）**
 
 点击 NVIC Settings 选项卡，勾选 USART1 global interrupt（开启 USART1 全局中断）。
 
 为什么开中断：中断的意思是”有数据来了再叫我”，单片机平时该干嘛干嘛，收到串口数据时自动放下手里的活去处理。这样收数据不会漏。
 
-![[Pasted image 20261016172115.png]]
+![[p2003.png]]
 
 ### **四、配置** **LED** **引脚**
 
@@ -149,7 +149,7 @@ o 设置好后点 **Start** **Monitoring（开始监视）**，相当于独立
 
 "#include **<stdio.h>**"
 
-![[Pasted image 20261016172542.png]]
+![[p2004.png]]
 
 **②** **添加** **printf** **重定向函数**：找到 /* USER CODE BEGIN 4 */ 和 /* USER CODE END 4 */（在 main 函数后面），在中间添加：
 
@@ -159,7 +159,7 @@ int _write(int fd, char *ptr, int len)
   **return** len;  
 }
 
-![[Pasted image 20261016173006.png]]
+![[p2005.png]]
 代码说明：
 
 · C 语言的 printf 原本是给电脑屏幕用的，单片机没有屏幕。
@@ -174,14 +174,14 @@ printf("Hello STM32! count = %d\r\n", count);
 count++;  
 HAL_Delay(1000);
 
-![[Pasted image 20261016173251.png]]
+![[p2006.png]]
 
 
 **④** **定义计数变量**：在 /* USER CODE BEGIN PV */ 和 /* USER CODE END PV */ 之间添加：
 
 uint16_t count = 0;
 
-![[Pasted image 20261016173411.png]]
+![[p2007.png]]
 ### 
 **二、编译、烧录、接线**
 
