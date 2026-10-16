@@ -138,3 +138,188 @@ o 设置好后点 **Start** **Monitoring（开始监视）**，相当于独立
 ### **六、生成工程**
 
 项目管理设置与第一次完全相同（全英文路径、IDE 选 CMake），确认扩展库已下载后点击 GENERATE CODE。
+
+## **第四步：实验一** **—— printf** **重定向，单片机给电脑发消息**
+
+### **一、添加代码**
+
+用 VS Code 打开工程，打开 Core/Src/main.c。
+
+**①** **包含头文件**：在文件顶部找到 /* USER CODE BEGIN Includes */ 和 /* USER CODE END Includes */，在中间添加：
+
+"#include **<stdio.h>**"
+
+**②** **添加** **printf** **重定向函数**：找到 /* USER CODE BEGIN 4 */ 和 /* USER CODE END 4 */（在 main 函数后面），在中间添加：
+
+int _write(int fd, char *ptr, int len)  
+{  
+  HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, HAL_MAX_DELAY);  
+  **return** len;  
+}
+
+代码说明：
+
+· C 语言的 printf 原本是给电脑屏幕用的，单片机没有屏幕。
+
+· 这段代码告诉编译器：“printf 的内容，统统通过串口1发出去”。这叫做**重定向**。
+
+· 以后直接用 printf 就行，里面的 _write 函数不用管它怎么实现的，原样复制即可。
+
+**③** **在** **while(1)** **中发送消息**：和第一次一样，在 /* USER CODE END WHILE */ 和 /* USER CODE BEGIN 3 */ 之间写入：
+
+printf("Hello STM32! count = %d\r\n", count);  
+count++;  
+HAL_Delay(1000);
+
+**④** **定义计数变量**：在 /* USER CODE BEGIN PV */ 和 /* USER CODE END PV */ 之间添加：
+
+uint16_t count = 0;
+
+### **二、编译、烧录、接线**
+
+1. 按第一次的方法编译并烧录（ST-Link 负责烧录）。
+
+2. **接线（CH340** **部分）**：
+
+|   |   |
+|---|---|
+|**CH340**|**连接到** **STM32**|
+|TX|PA10（USART1_RX）|
+|RX|PA9（USART1_TX）|
+|GND|GND|
+
+注意： - 又是交叉！CH340 的 TX 接单片机的 RX(PA10)，CH340 的 RX 接单片机的 TX(PA9)。 - **GND** **必须接**（双方要有共同的参考地），否则数据全是乱的。 - CH340 的 3.3V/5V 引脚**不接**！单片机由 ST-Link 供电，两个电源同时接可能烧板子。
+
+3. 在 VS Code 底部打开 Serial Monitor 面板：选好 COM 口、波特率 115200 → 点 Start Monitoring。
+
+### **三、验证结果**
+
+Serial Monitor 接收区每隔 1 秒打印一行：
+
+Hello STM32! count = 0  
+Hello STM32! count = 1  
+Hello STM32! count = 2  
+...
+
+提示：\r\n 是”回车换行”，让每条消息单独占一行。只写 \n 在某些工具里不会换行。
+
+---
+
+## **第五步：实验二** **——** **串口接收，电脑控制单片机**
+
+这次反过来：在 Serial Monitor 里发送字符 1 开灯，发送 0 关灯。
+
+### **一、添加代码**
+
+**①** **定义接收变量**：在 /* USER CODE BEGIN PV */ 区域（刚才 count 变量旁边）添加：
+
+uint8_t rx_data;   _// 存放收到的一个字节_
+
+**②** **启动串口接收**：找到 /* USER CODE BEGIN 2 */ 和 /* USER CODE END 2 */（在 main 函数里、while(1) 之前），添加：
+
+HAL_UART_Receive_IT(&huart1, &rx_data, 1);   _// 开启串口1中断接收，每次收1个字节_
+
+代码说明：这行代码相当于告诉单片机：“竖起耳朵听着，串口1来数据了就叫我”。它只负责”开始听”，收到数据后做什么由下面的回调函数决定。
+
+**③** **编写接收回调函数**：在 /* USER CODE BEGIN 4 */ 区域（刚才 _write 函数旁边）添加：
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)  
+{  
+  **if** (huart->Instance == USART1)          _// 确认是串口1收到的_  
+  {  
+    **if** (rx_data == '1')                   _// 收到字符 '1'_  
+    {  
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);    _// PA4 高电平，LED 亮_  
+      printf("received '1', LED ON\r\n");  
+    }  
+    **else** **if** (rx_data == '0')              _// 收到字符 '0'_  
+    {  
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);  _// PA4 低电平，LED 灭_  
+      printf("received '0', LED OFF\r\n");  
+    }  
+    **else**  
+    {  
+      printf("unknown command: %c\r\n", rx_data);            _// 收到其他字符_  
+    }  
+  
+    HAL_UART_Receive_IT(&huart1, &rx_data, 1);   _// 重新开启接收，等下一个字节_  
+  }  
+}
+
+代码说明：
+
+· HAL_UART_RxCpltCallback 是 HAL 库约定好的函数名，**每收到一个字节，HAL** **库会自动调用它一次**。函数名不能改，原样复制即可。
+
+· 函数最后一行**必须重新开启接收**，否则只能收到一个字节，之后就”聋”了。
+
+· 注意 '1' 是**字符1**，不是数字1。电脑通过串口发来的是字符。
+
+关于 CubeMX 重新生成：上面的代码都写在 USER CODE 区域内，重新生成工程不会被覆盖。这一点和第一次完全相同。
+
+### **二、编译烧录，验证结果**
+
+1. 编译烧录（ST-Link），接线保持不变（CH340 还接着）。
+
+2. 在 Serial Monitor 下方的发送输入框输入 1，按回车发送 → LED 亮，接收区显示 received '1', LED ON。
+
+3. 发送 0 → LED 灭，显示 received '0', LED OFF。
+
+4. 随便发个别的字符（比如 a）→ 显示 unknown command: a。
+
+发送时直接输入 1 或 0 即可，**不要输入引号**。如果发送后多出一条 unknown command，检查输入框里是不是多带了空格或换行。
+
+### **三、关于中文乱码（呼应第一次文档）**
+
+如果想让单片机打印中文（如 printf("灯已打开\r\n");）：
+
+· 用 **Serial** **Monitor（VS** **Code** **插件）**：它默认按 UTF-8 解码，和 VS Code 里源文件的编码一致，**中文一般可以直接正常显示**，这正是推荐用它的原因之一；
+
+· 用**独立串口助手**：很多串口助手按 GBK 解码，会显示乱码，需要在软件设置里把编码改成 UTF-8（如果软件支持的话）。
+
+保险起见，初学阶段打印内容还是建议用英文或拼音，把所有精力集中在串口本身。感兴趣的可以搜索”串口助手 中文乱码 UTF-8 GBK”了解更多，不属于本次必学内容。
+
+---
+
+## **第六步：硬件接线总表与检查清单**
+
+### **一、本次实验全部接线**
+
+|   |   |   |
+|---|---|---|
+|**模块**|**引脚**|**连接到** **STM32**|
+|ST-Link（烧录用）|3.3V / SWCLK / SWDIO / GND|同第一次，不再重复|
+|CH340（通信用）|TX|PA10（USART1_RX）|
+|CH340（通信用）|RX|PA9（USART1_TX）|
+|CH340（通信用）|GND|GND|
+|LED|正极（长脚）→ GND，负极（短脚）→ PA4|同第一次|
+
+
+
+### **二、接线检查清单**
+
+☐ ST-Link 接线与第一次一致，烧录正常
+
+☐ CH340 TX → PA10，CH340 RX → PA9（交叉连接）
+
+☐ CH340 GND → STM32 GND（共地）
+
+☐ CH340 的 3.3V/5V 引脚悬空不接
+
+☐ LED 仍在 PA4 上
+
+☐ 设备管理器中能同时看到 ST-Link 和 CH340 两个设备
+
+---
+
+## **第七步：常见错误排查清单**
+
+|                              |                                                                    |
+| ---------------------------- | ------------------------------------------------------------------ |
+| **现象**                       | **排查顺序**                                                           |
+| 设备管理器没有 COM 口                | ① 换 USB 口 ② 重新装 CH340 驱动 ③ 换线（排除纯充电线）                              |
+| Serial Monitor 连不上 / 提示端口被占用 | ① COM 号选对了吗 ② 串口是不是被别的软件（如独立串口助手、FlyMcu）占用了，关掉它再点 Start Monitoring |
+| 收到一堆乱码                       | ① 波特率两边都是 115200 吗 ② GND 接了吗 ③ 时钟树 HCLK 是 72MHz 吗                  |
+| 完全没有数据                       | ① TX/RX 是不是接反了 ② Serial Monitor 的 Start Monitoring 点了吗 ③ 代码烧进去了吗   |
+| 只能发不能收 / 只能收不能发              | TX 和 RX 其中一根接反或没接牢，重点查杜邦线是否松动                                      |
+| 只能收到一次数据                     | 回调函数最后忘了写 HAL_UART_Receive_IT(...) 重新开启接收                          |
+| 编译报错找不到 huart1               | 检查 CubeMX 里 USART1 是否真的开启了，重新 GENERATE CODE                        |
