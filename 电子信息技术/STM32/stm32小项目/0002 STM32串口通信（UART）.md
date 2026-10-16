@@ -174,6 +174,7 @@ printf("Hello STM32! count = %d\r\n", count);
 count++;  
 HAL_Delay(1000);
 
+![[Pasted image 20261016173251.png]]
 
 
 **④** **定义计数变量**：在 /* USER CODE BEGIN PV */ 和 /* USER CODE END PV */ 之间添加：
