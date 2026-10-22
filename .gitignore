@@ -1,2 +1,10 @@
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
+# Sync text notes only. Keep plugins, settings and attachments on this device.
+*
+!*/
+!*.md
+!*.markdown
+!*.txt
+!/.gitignore
+
+# Obsidian settings and plugins stay local, including their text files.
+/.obsidian/
