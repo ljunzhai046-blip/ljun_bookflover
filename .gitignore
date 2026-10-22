@@ -1,10 +1,36 @@
-# Sync text notes only. Keep plugins, settings and attachments on this device.
+# Sync text notes and inserted images.
 *
 !*/
 !*.md
 !*.markdown
 !*.txt
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.webp
+!*.svg
+!*.bmp
+!*.avif
+!*.tif
+!*.tiff
+!*.ico
+!*.heic
+!*.heif
+!*.PNG
+!*.JPG
+!*.JPEG
+!*.GIF
+!*.WEBP
+!*.SVG
+!*.BMP
+!*.AVIF
+!*.TIF
+!*.TIFF
+!*.ICO
+!*.HEIC
+!*.HEIF
 !/.gitignore
 
-# Obsidian settings and plugins stay local, including their text files.
+# Keep Obsidian settings and plugins local.
 /.obsidian/
