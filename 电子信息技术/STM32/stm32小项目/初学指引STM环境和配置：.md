@@ -63,7 +63,7 @@
 "cmake.configureArgs": [
 "-DCMAKE_COMMAND=cube-cmake"],
 "cmake.preferredGenerators": [
-"Ninja"]
+"Ninja"],
 "C_Cpp.intelliSenseEngine": "disabled",
 "stm32cube-ide-clangd.path": "cube",
 "stm32cube-ide-clangd.arguments": [
